@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f7faff">
   <meta name="description" content="Demo User — Property and Investment Consultant. Digital Business Calling Card.">
-  <title>Demo User · Digital Calling Card</title>
+  <title>John Doe · Digital Calling Card</title>
   <style>
     /*
       Indigo Paper Bloom, standalone edition.
@@ -50,7 +50,7 @@
 <body>
   <main class="page" id="top">
     <div class="progress" aria-hidden="true"></div><div class="ambient a" aria-hidden="true"></div><div class="ambient b" aria-hidden="true"></div><div class="ambient c" aria-hidden="true"></div>
-    <section class="desk" id="card-desk" aria-label="Demo User digital business card">
+    <section class="desk" id="card-desk" aria-label="Demo digital business card">
       <aside class="rail">
         <div class="rail-head"><a class="mark" href="#top" aria-label="Digital card home"><span class="mark-shape"><i></i></span></a><button class="round-button" type="button" data-share aria-label="Share this card">↗</button></div>
         <p class="eyebrow">DIGITAL CALLING CARD</p><p class="greeting" lang="ta">வணக்கம் <b>•</b> Vanakkam</p>
@@ -85,8 +85,8 @@
             <p>Four direct routes, designed for the moment you need them.</p>
           </div>
           <div class="actions">
-            <a class="action call" id="action-call" href="tel:+919876543210"><span class="action-icon">⌕</span><span><strong id="action-call-text">Call Now</strong><small>Speak directly</small></span><b class="arrow">›</b></a>
-            <a class="action whatsapp" id="action-whatsapp" href="https://wa.me/919876543210?text=Hi%2C%20I%20found%20your%20digital%20card." target="_blank" rel="noopener"><span class="action-icon">◔</span><span><strong>WhatsApp</strong><small>Start a chat</small></span><b class="arrow">›</b></a>
+            <a class="action call" id="action-call" href="tel:+919876543210"><span class="action-icon">⌕</span><span><strong id="action-call-text">Call John</strong><small>Speak directly</small></span><b class="arrow">›</b></a>
+            <a class="action whatsapp" id="action-whatsapp" href="https://wa.me/919876543210?text=Hi%20John%2C%20I%20found%20your%20digital%20card." target="_blank" rel="noopener"><span class="action-icon">◔</span><span><strong>WhatsApp</strong><small>Start a chat</small></span><b class="arrow">›</b></a>
             <a class="action email" id="action-email" href="mailto:demo@example.com"><span class="action-icon">✉</span><span><strong>Send email</strong><small>Write a note</small></span><b class="arrow">›</b></a>
             <a class="action directions" id="action-directions" href="https://www.google.com/maps/search/?api=1&query=Anna+Nagar+Chennai" target="_blank" rel="noopener"><span class="action-icon">⌖</span><span><strong>Get directions</strong><small>Find the office</small></span><b class="arrow">›</b></a>
           </div>
@@ -111,17 +111,17 @@
             <article class="service sky">
               <span class="service-index">01</span><span class="service-icon">▥</span>
               <div><h3>Property Sales</h3><p>Shortlisted properties, clear comparisons, and on-ground support from viewing to handover.</p></div>
-              <a id="service-sales-link" href="https://wa.me/919876543210?text=Hi%2C%20I%20would%20like%20to%20discuss%20Property%20Sales." target="_blank" rel="noopener" aria-label="Ask about Property Sales">↗</a>
+              <a id="service-sales-link" href="https://wa.me/919876543210?text=Hi%20John%2C%20I%20would%20like%20to%20discuss%20Property%20Sales." target="_blank" rel="noopener" aria-label="Ask about Property Sales">↗</a>
             </article>
             <article class="service green">
               <span class="service-index">02</span><span class="service-icon">▣</span>
               <div><h3>Investment Advisory</h3><p>Data-led conversations for buyers looking at appreciation, rental potential, and timing.</p></div>
-              <a id="service-advisory-link" href="https://wa.me/919876543210?text=Hi%2C%20I%20would%20like%20to%20discuss%20Investment%20Advisory." target="_blank" rel="noopener" aria-label="Ask about Investment Advisory">↗</a>
+              <a id="service-advisory-link" href="https://wa.me/919876543210?text=Hi%20John%2C%20I%20would%20like%20to%20discuss%20Investment%20Advisory." target="_blank" rel="noopener" aria-label="Ask about Investment Advisory">↗</a>
             </article>
             <article class="service yellow">
               <span class="service-index">03</span><span class="service-icon">▤</span>
               <div><h3>Legal Coordination</h3><p>A practical handoff to the right checks and documentation partners before you commit.</p></div>
-              <a id="service-legal-link" href="https://wa.me/919876543210?text=Hi%2C%20I%20would%20like%20to%20discuss%20Legal%20Coordination." target="_blank" rel="noopener" aria-label="Ask about Legal Coordination">↗</a>
+              <a id="service-legal-link" href="https://wa.me/919876543210?text=Hi%20John%2C%20I%20would%20like%20to%20discuss%20Legal%20Coordination." target="_blank" rel="noopener" aria-label="Ask about Legal Coordination">↗</a>
             </article>
           </div>
         </section>
@@ -174,19 +174,39 @@
   <script>
     /* Standalone interactions & dynamic demo parameters */
     (() => {
-      // Parse optional query parameters for testing/demo (e.g. ?name=Vijay+Joseph&phone=9876543210)
+      // 1. Parse optional query parameters for testing/demo (e.g. ?name=Vijay+Joseph&phone=9876543210)
       const params = new URLSearchParams(location.search);
-      const rawPhone = (params.get('phone') || '919876543210').replace(/\D/g, '');
-      const formattedPhone = rawPhone.length === 10 ? `+91 ${rawPhone.slice(0,5)} ${rawPhone.slice(5)}` : (rawPhone.length === 12 && rawPhone.startsWith('91') ? `+91 ${rawPhone.slice(2,7)} ${rawPhone.slice(7)}` : `+${rawPhone}`);
       
-      const fullName = params.get('name') || 'John Doe';
-      const nameParts = fullName.trim().split(' ');
+      const fullName = (params.get('name') || 'John Doe').trim();
+      const nameParts = fullName.split(/\s+/);
       const firstName = nameParts[0] || 'John';
-      const lastName = nameParts.slice(1).join(' ') || 'Doe';
-      const email = params.get('email') || 'demo@example.com';
-      const company = params.get('company') || 'Demo Realty Advisors';
-      const title = params.get('title') || 'Property & Investment Consultant';
-      const website = params.get('website') || 'https://example.com';
+      const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
+      
+      // Clean phone number to standard international format (E.164 without '+' for raw, with '+' for tel)
+      let phoneParam = (params.get('phone') || '9876543210').trim();
+      // Remove all non-digits except a leading plus
+      let hasLeadingPlus = phoneParam.startsWith('+');
+      let digitsOnly = phoneParam.replace(/\D/g, '');
+      
+      // If 10 digits given without country code, default to +91 (India)
+      let countryPhone = digitsOnly;
+      if (digitsOnly.length === 10) {
+        countryPhone = '91' + digitsOnly;
+      }
+      
+      // Full international phone string (e.g. "+919876543210")
+      const e164Phone = '+' + countryPhone;
+      
+      // Clean readable format for display (e.g. "+91 98765 43210")
+      let displayPhone = e164Phone;
+      if (countryPhone.startsWith('91') && countryPhone.length === 12) {
+        displayPhone = `+91 ${countryPhone.slice(2, 7)} ${countryPhone.slice(7)}`;
+      }
+      
+      const email = (params.get('email') || 'demo@example.com').trim();
+      const company = (params.get('company') || 'Demo Realty Advisors').trim();
+      const title = (params.get('title') || 'Property & Investment Consultant').trim();
+      const website = (params.get('website') || 'https://example.com').trim();
 
       const profile = {
         name: fullName,
@@ -194,77 +214,98 @@
         last: lastName,
         company: company,
         title: title,
-        phone: rawPhone,
-        phoneFormatted: formattedPhone,
+        rawDigits: countryPhone,
+        e164: e164Phone,
+        displayPhone: displayPhone,
         email: email,
         website: website
       };
 
-      // Apply dynamic data to DOM
+      // 2. Apply dynamic profile data to DOM elements
       document.title = `${profile.name} · Digital Calling Card`;
-      const elProfileName = document.getElementById('profile-name'); if (elProfileName) elProfileName.textContent = profile.name;
-      const elProfileTitle = document.getElementById('profile-title'); if (elProfileTitle) elProfileTitle.textContent = profile.title;
-      const elCompanyName = document.getElementById('company-name'); if (elCompanyName) elCompanyName.textContent = profile.company;
-      const elPhoneDisplay = document.getElementById('phone-display'); if (elPhoneDisplay) elPhoneDisplay.textContent = profile.phoneFormatted;
-      const elPhoneLink = document.getElementById('phone-link'); if (elPhoneLink) elPhoneLink.href = `tel:+${profile.phone}`;
-      const elEmailDisplay = document.getElementById('email-display'); if (elEmailDisplay) elEmailDisplay.textContent = profile.email;
-      const elEmailLink = document.getElementById('email-link'); if (elEmailLink) elEmailLink.href = `mailto:${profile.email}`;
-      const elActionCall = document.getElementById('action-call'); if (elActionCall) elActionCall.href = `tel:+${profile.phone}`;
-      const elActionCallText = document.getElementById('action-call-text'); if (elActionCallText) elActionCallText.textContent = `Call ${profile.first}`;
-      const elActionEmail = document.getElementById('action-email'); if (elActionEmail) elActionEmail.href = `mailto:${profile.email}`;
-      const elServicesDiscuss = document.getElementById('services-discuss-link'); if (elServicesDiscuss) elServicesDiscuss.href = `mailto:${profile.email}`;
-      const elFooterText = document.getElementById('footer-text'); if (elFooterText) elFooterText.textContent = `Chennai, தமிழ்நாடு · © 2026 ${profile.company}`;
+      const setTxt = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+      
+      setTxt('profile-name', profile.name);
+      setTxt('profile-title', profile.title);
+      setTxt('company-name', profile.company);
+      setTxt('phone-display', profile.displayPhone);
+      setTxt('email-display', profile.email);
+      setTxt('action-call-text', `Call ${profile.first}`);
+      setTxt('footer-text', `Chennai, தமிழ்நாடு · © 2026 ${profile.company}`);
 
-      const waGreeting = encodeURIComponent(`Hi ${profile.first}, I found your digital card.`);
-      const elActionWA = document.getElementById('action-whatsapp'); if (elActionWA) elActionWA.href = `https://wa.me/${profile.phone}?text=${waGreeting}`;
-      const elServiceSales = document.getElementById('service-sales-link'); if (elServiceSales) elServiceSales.href = `https://wa.me/${profile.phone}?text=${encodeURIComponent(`Hi ${profile.first}, I would like to discuss Property Sales.`)}`;
-      const elServiceAdv = document.getElementById('service-advisory-link'); if (elServiceAdv) elServiceAdv.href = `https://wa.me/${profile.phone}?text=${encodeURIComponent(`Hi ${profile.first}, I would like to discuss Investment Advisory.`)}`;
-      const elServiceLegal = document.getElementById('service-legal-link'); if (elServiceLegal) elServiceLegal.href = `https://wa.me/${profile.phone}?text=${encodeURIComponent(`Hi ${profile.first}, I would like to discuss Legal Coordination.`)}`;
+      const setHref = (id, val) => { const el = document.getElementById(id); if (el) el.href = val; };
+      setHref('phone-link', `tel:${profile.e164}`);
+      setHref('email-link', `mailto:${profile.email}`);
+      setHref('action-call', `tel:${profile.e164}`);
+      setHref('action-email', `mailto:${profile.email}`);
+      setHref('services-discuss-link', `mailto:${profile.email}`);
 
-      // Toast notification helper
+      const waMsg = (text) => `https://wa.me/${profile.rawDigits}?text=${encodeURIComponent(text)}`;
+      setHref('action-whatsapp', waMsg(`Hi ${profile.first}, I found your digital card.`));
+      setHref('service-sales-link', waMsg(`Hi ${profile.first}, I would like to discuss Property Sales.`));
+      setHref('service-advisory-link', waMsg(`Hi ${profile.first}, I would like to discuss Investment Advisory.`));
+      setHref('service-legal-link', waMsg(`Hi ${profile.first}, I would like to discuss Legal Coordination.`));
+
+      // 3. Toast notification system
       const toast = document.querySelector('.toast');
-      let timer;
+      let toastTimer;
       const message = (text) => {
+        if (!toast) return;
         toast.textContent = text;
         toast.classList.add('show');
-        clearTimeout(timer);
-        timer = setTimeout(() => toast.classList.remove('show'), 3600);
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 3800);
       };
 
-      // vCard export (.vcf)
-      const vcard = () => {
-        const lines = [
+      // 4. Robust Universal vCard Generator (Compatible with iOS, Android, macOS, Windows Contacts & Outlook)
+      const downloadVcard = () => {
+        // Build vCard v3.0 standard with UTF-8 BOM
+        const vcardFields = [
           'BEGIN:VCARD',
           'VERSION:3.0',
-          `N:${profile.last};${profile.first};;;`,
           `FN:${profile.name}`,
+          `N:${profile.last};${profile.first};;;`,
           `ORG:${profile.company}`,
           `TITLE:${profile.title}`,
-          `TEL;TYPE=CELL,VOICE:+${profile.phone}`,
-          `EMAIL;TYPE=INTERNET:${profile.email}`,
-          `URL:${profile.website}`,
-          'ADR;TYPE=WORK:;;Anna Nagar;Chennai;Tamil Nadu;600040;India',
+          `TEL;TYPE=CELL,VOICE,pref:${profile.e164}`,
+          `EMAIL;TYPE=INTERNET,WORK,pref:${profile.email}`,
+          `URL;TYPE=WORK:${profile.website}`,
+          'ADR;TYPE=WORK,POSTAL,PARCEL:;;Anna Nagar;Chennai;Tamil Nadu;600040;India',
+          `NOTE:Saved from ${profile.name}'s Digital Calling Card`,
           'END:VCARD'
-        ].join('\r\n');
-        const blob = new Blob([lines], { type: 'text/vcard;charset=utf-8' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        const slug = profile.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-        a.download = `${slug}-contact.vcf`;
-        document.body.append(a);
-        a.click();
-        a.remove();
-        setTimeout(() => URL.revokeObjectURL(url), 0);
-        message(`Contact file ready — open it to save ${profile.name} to your phonebook.`);
-      };
-      document.querySelectorAll('[data-vcard]').forEach(el => el.addEventListener('click', vcard));
+        ];
 
-      // Native Share or clipboard copy
-      const share = async () => {
+        const vcardContent = '\uFEFF' + vcardFields.join('\r\n') + '\r\n';
+        const blob = new Blob([vcardContent], { type: 'text/vcard;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        
+        const slug = profile.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'contact';
+        const filename = `${slug}.vcf`;
+
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', filename);
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        
+        setTimeout(() => {
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+        }, 300);
+
+        message(`✓ Contact file (${filename}) ready — open to save ${profile.name} to your phonebook.`);
+      };
+
+      document.querySelectorAll('[data-vcard]').forEach(el => {
+        el.addEventListener('click', downloadVcard);
+      });
+
+      // 5. Native Share API & Clipboard fallback
+      const shareCard = async () => {
         const data = {
           title: `${profile.name} | ${profile.company}`,
-          text: `Save ${profile.name}'s digital contact card.`,
+          text: `Connect with ${profile.name} (${profile.title}) — Digital Contact Card:`,
           url: location.href
         };
         try {
@@ -274,39 +315,44 @@
           }
           if (navigator.clipboard && location.protocol !== 'file:') {
             await navigator.clipboard.writeText(location.href);
-            message('Card link copied — ready to paste anywhere.');
+            message('✓ Card link copied to clipboard.');
             return;
           }
-          message('Use your browser’s share menu to send this card.');
+          message('Use your browser’s menu to share this card.');
         } catch (error) {
-          if (error && error.name !== 'AbortError') message('Use your browser’s share menu to send this card.');
+          if (error && error.name !== 'AbortError') {
+            message('Use your browser’s menu to share this card.');
+          }
         }
       };
-      document.querySelectorAll('[data-share]').forEach(el => el.addEventListener('click', share));
 
-      // Enquiry Form
+      document.querySelectorAll('[data-share]').forEach(el => {
+        el.addEventListener('click', shareCard);
+      });
+
+      // 6. Interactive Enquiry Form
       const form = document.querySelector('#enquiry-form');
       if (form) {
         form.addEventListener('submit', event => {
           event.preventDefault();
           if (!form.reportValidity()) return;
           form.reset();
-          message(`Thanks for reaching out — ${profile.first} will review your note and get back to you soon.`);
+          message(`✓ Thanks! ${profile.first} will review your message and reply soon.`);
         });
       }
 
-      // QR Code Generator
+      // 7. Dynamic QR Code Generator for Current Card URL
       const qr = document.querySelector('#qr');
       if (qr) {
-        const current = location.href.startsWith('file:') ? profile.website : location.href;
-        qr.src = 'https://api.qrserver.com/v1/create-qr-code/?size=280x280&margin=0&format=svg&color=17326B&bgcolor=ffffff&data=' + encodeURIComponent(current);
+        const currentUrl = location.href.startsWith('file:') ? profile.website : location.href;
+        qr.src = 'https://api.qrserver.com/v1/create-qr-code/?size=280x280&margin=0&format=svg&color=17326B&bgcolor=ffffff&data=' + encodeURIComponent(currentUrl);
         qr.onerror = () => {
           qr.style.display = 'none';
-          qr.parentElement.insertAdjacentHTML('afterbegin', '<strong style="padding:30px 8px;color:#2446a8;text-align:center;font-size:12px">Share this card from your browser</strong>');
+          qr.parentElement.insertAdjacentHTML('afterbegin', '<strong style="padding:24px 8px;color:#2446a8;text-align:center;font-size:11px">Scan or share from browser</strong>');
         };
       }
 
-      // Scroll Progress Indicator
+      // 8. Progress Indicator
       const progress = document.querySelector('.progress');
       if (progress) {
         addEventListener('scroll', () => {
