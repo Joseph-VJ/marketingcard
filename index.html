@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f7faff">
-  <meta name="description" content="Demo User — Property and Investment Consultant. Digital Business Calling Card.">
+  <meta name="description" content="John Doe — Property and Investment Consultant. Digital Business Calling Card.">
   <title>John Doe · Digital Calling Card</title>
   <style>
     /*
@@ -45,6 +45,19 @@
     /* Enhanced portrait detail: a compact front-facing illustration preserves warmth without external image dependencies. */
     .portrait:before{background:radial-gradient(circle at 18px 33px,#2d2220 0 2px,transparent 2.5px),radial-gradient(circle at 37px 33px,#2d2220 0 2px,transparent 2.5px),linear-gradient(90deg,transparent 42%,#704330 43% 57%,transparent 58%),#a66b4c}
     .hair{top:18px;left:42px;width:52px;height:20px;border-radius:50% 50% 10px 10px;background:#25262d;transform:rotate(-4deg)}
+    
+    /* Guide Modal */
+    .modal-backdrop{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:16px;background:rgba(18,34,70,.5);backdrop-filter:blur(5px);opacity:0;pointer-events:none;transition:opacity .2s var(--ease)}
+    .modal-backdrop.open{opacity:1;pointer-events:auto}
+    .modal-box{width:100%;max-width:380px;padding:26px 22px;border:1px solid #d9e4f5;border-radius:24px;background:#fff;box-shadow:0 24px 60px rgba(23,50,107,.25);text-align:center;transform:translateY(12px) scale(.97);transition:transform .2s var(--ease)}
+    .modal-backdrop.open .modal-box{transform:translateY(0) scale(1)}
+    .modal-badge{display:grid;width:54px;height:54px;margin:0 auto 16px;place-items:center;border-radius:18px;background:#eff4ff;color:var(--blue);font-size:26px}
+    .modal-box h3{margin:0 0 8px;font-family:Georgia,serif;font-size:22px;color:var(--ink)}
+    .modal-box p{margin:0 0 16px;font-size:12px;line-height:1.6;color:#5e7294}
+    .modal-steps{display:grid;gap:8px;margin:16px 0 22px;text-align:left}
+    .step-item{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;padding:9px 12px;border:1px solid #e3ecf8;border-radius:12px;background:#f9fbff;font-size:11px;font-weight:650;color:#334f82}
+    .step-num{display:grid;width:20px;height:20px;place-items:center;border-radius:50%;background:var(--blue);color:#fff;font-size:10px;font-weight:800}
+    .modal-btn{width:100%;min-height:44px;border:0;border-radius:13px;background:var(--blue);color:#fff;font-size:12px;font-weight:800;cursor:pointer}
   </style>
 </head>
 <body>
@@ -170,6 +183,21 @@
     </section>
     <button class="mobile-save" type="button" data-vcard>＋ Save contact</button>
   </main>
+
+  <!-- Save Guide Modal -->
+  <div class="modal-backdrop" id="save-modal">
+    <div class="modal-box">
+      <div class="modal-badge">📇</div>
+      <h3 id="modal-title">Contact Downloaded</h3>
+      <p id="modal-desc">To save this contact to your phonebook:</p>
+      <div class="modal-steps">
+        <div class="step-item"><span class="step-num">1</span><span>Open the downloaded <strong>.vcf file</strong> (from your notification bar or downloads).</span></div>
+        <div class="step-item"><span class="step-num">2</span><span>Tap <strong>"Save"</strong> or <strong>"Add Contact"</strong> to confirm.</span></div>
+      </div>
+      <button type="button" class="modal-btn" id="modal-close-btn">Done</button>
+    </div>
+  </div>
+
   <div class="toast" role="status" aria-live="polite"></div>
   <script>
     /* Standalone interactions & dynamic demo parameters */
@@ -184,8 +212,6 @@
       
       // Clean phone number to standard international format (E.164 without '+' for raw, with '+' for tel)
       let phoneParam = (params.get('phone') || '9876543210').trim();
-      // Remove all non-digits except a leading plus
-      let hasLeadingPlus = phoneParam.startsWith('+');
       let digitsOnly = phoneParam.replace(/\D/g, '');
       
       // If 10 digits given without country code, default to +91 (India)
@@ -246,7 +272,7 @@
       setHref('service-advisory-link', waMsg(`Hi ${profile.first}, I would like to discuss Investment Advisory.`));
       setHref('service-legal-link', waMsg(`Hi ${profile.first}, I would like to discuss Legal Coordination.`));
 
-      // 3. Toast notification system
+      // 3. Toast and Modal notification helpers
       const toast = document.querySelector('.toast');
       let toastTimer;
       const message = (text) => {
@@ -257,44 +283,73 @@
         toastTimer = setTimeout(() => toast.classList.remove('show'), 3800);
       };
 
-      // 4. Robust Universal vCard Generator (Compatible with iOS, Android, macOS, Windows Contacts & Outlook)
+      const saveModal = document.getElementById('save-modal');
+      const modalCloseBtn = document.getElementById('modal-close-btn');
+      if (modalCloseBtn && saveModal) {
+        modalCloseBtn.addEventListener('click', () => saveModal.classList.remove('open'));
+        saveModal.addEventListener('click', (e) => {
+          if (e.target === saveModal) saveModal.classList.remove('open');
+        });
+      }
+
+      // 4. Clean RFC-compliant vCard generator (Compatible with iOS, Android, macOS, Windows Contacts & Outlook)
       const downloadVcard = () => {
-        // Build vCard v3.0 standard with UTF-8 BOM
+        // vCard 3.0 strictly without BOM to prevent Android com.android.vcard parser errors
         const vcardFields = [
           'BEGIN:VCARD',
           'VERSION:3.0',
           `FN:${profile.name}`,
           `N:${profile.last};${profile.first};;;`,
+          `NICKNAME:${profile.first}`,
           `ORG:${profile.company}`,
           `TITLE:${profile.title}`,
-          `TEL;TYPE=CELL,VOICE,pref:${profile.e164}`,
-          `EMAIL;TYPE=INTERNET,WORK,pref:${profile.email}`,
+          `TEL;TYPE=CELL:${profile.e164}`,
+          `TEL;TYPE=WORK:${profile.e164}`,
+          `EMAIL;TYPE=INTERNET:${profile.email}`,
+          `EMAIL;TYPE=WORK:${profile.email}`,
           `URL;TYPE=WORK:${profile.website}`,
-          'ADR;TYPE=WORK,POSTAL,PARCEL:;;Anna Nagar;Chennai;Tamil Nadu;600040;India',
-          `NOTE:Saved from ${profile.name}'s Digital Calling Card`,
+          'ADR;TYPE=WORK:;;Anna Nagar;Chennai;Tamil Nadu;600040;India',
+          `NOTE:Demo Contact Card for ${profile.name}`,
           'END:VCARD'
         ];
 
-        const vcardContent = '\uFEFF' + vcardFields.join('\r\n') + '\r\n';
-        const blob = new Blob([vcardContent], { type: 'text/vcard;charset=utf-8' });
-        const url = URL.createObjectURL(blob);
-        
+        const vcardContent = vcardFields.join('\r\n') + '\r\n';
         const slug = profile.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'contact';
         const filename = `${slug}.vcf`;
 
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', filename);
-        link.style.display = 'none';
-        document.body.appendChild(link);
-        link.click();
-        
-        setTimeout(() => {
-          document.body.removeChild(link);
-          URL.revokeObjectURL(url);
-        }, 300);
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
-        message(`✓ Contact file (${filename}) ready — open to save ${profile.name} to your phonebook.`);
+        if (isIOS) {
+          // On iOS Safari, using data URI triggers native "Add to Contacts" sheet
+          const dataUri = 'data:text/vcard;charset=utf-8,' + encodeURIComponent(vcardContent);
+          const link = document.createElement('a');
+          link.href = dataUri;
+          link.download = filename;
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+        } else {
+          // Android & Desktop: Blob download
+          const blob = new Blob([vcardContent], { type: 'text/vcard;charset=utf-8' });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', filename);
+          link.style.display = 'none';
+          document.body.appendChild(link);
+          link.click();
+          
+          setTimeout(() => {
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+          }, 600);
+        }
+
+        // Show toast and helper modal instructions
+        message(`✓ ${filename} downloaded! Tap to open and save.`);
+        if (saveModal) {
+          setTimeout(() => saveModal.classList.add('open'), 400);
+        }
       };
 
       document.querySelectorAll('[data-vcard]').forEach(el => {
